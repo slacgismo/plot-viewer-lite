@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
+</head>
+
+
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="">Viewer</a>
+      </div>
+    </div>
+  </nav>
+
+  <form>
+
+    <label>X-Axis</label>
+      <select name="x_axis_search" id="x_axis_search">
+        <option disabled selected value> - select x-axis - </option>
+        <option value="season">Season</option>
+        <option value="mix_type">Mix Type</option>
+        <option value="location">Location</option>
+      </select>
+
+    <label>Y-Axis</label>
+      <select name="y_axis_search" id="y_axis_search">
+        <option disabled selected value> - select y-axis - </option>
+        <option value="season">Season</option>
+        <option value="mix_type">Mix Type</option>
+        <option value="location">Location</option>
+      </select>
+
+    <label>Filter</label>
+      <select name="filter_type" id="filter_type">
+        <option disabled selected value> -Filter- </option>
+      </select>
+
+    <label>Normalization</label>
+      <select name="normalization" id="normalization">
+        <option disabled selected value> -Normalization- </option>
+        <option value="norm">Summer Total Peak Normalization</option>
+		    <option value="hour_norm">Hourly Normalization</option>
+      </select>
+
+    <button type="button" onclick="sortPlots()">submit</button>
+    </form>
+
+    <div class="selected_options">
+    </div>
+
+    <div id="content">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.1.js"></script>
+    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="./scripts/filter_type.js"></script>
+    <script type="text/javascript" src="./scripts/main.js"></script>
+
+</body>
+</html>
