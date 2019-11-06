@@ -1,82 +1,49 @@
 //used for the filter type to be determined once x_axis and y_axis are selected
 
+var filters;
 $(document).ready(function() {
     var plots = [];
 
     $("#y-axis-search, #x-axis-search").change(function() {
-        $("#filter-type").empty().append('<option disabled selected value> -Filter- </option>')
+        $("#filter-type").empty().append('<option disabled selected value> -Filter- </option>');
         $.getJSON(json_url, function(plots) {
 
-            var y_axis = $("#y-axis-search");
-            var x_axis = $("#x-axis-search");
+            var y_axis = $("#y-axis-search").val();
+            var x_axis = $("#x-axis-search").val();
+
+            var sort_opt = [];
+            sort_opt = sort_opt.concat(sort_options);
             var dist_options = [];
 
-            //collects all the distinct values of each sort_option feature in the json
-            for (var y = 0; y < sort_options.length; y++) {
+            if (sort_options.includes(x_axis) && sort_options.includes(y_axis) && (x_axis != y_axis)){
+                sort_opt.splice(sort_opt.indexOf(x_axis), 1);
+                sort_opt.splice(sort_opt.indexOf(y_axis), 1);
+                var filters_str = "";
                 var lookup = {};
                 var result = [];
 
-                for (var item, i = 0; item = plots[i++];) {
-                    var name = item[sort_options[y]];
-
-                    if (!(name in lookup)) {
-                        lookup[name] = 1;
-                        result.push(name);
+                for (var l = 0; l < sort_opt.length; l++){
+                    filters_str += "<label>Filter" + (l+1) + "</label>";
+                    filters_str += "<select id='filter" + (l+1) + "'>";
+                    filters_str += "<option disabled selected value> - " + sort_opt[l] + " - </option>";
+                    lookup = {};
+                    result = [];
+                    for (var item, i = 0; item = plots[i++];) {
+                        var name = item[sort_opt[l]];
+                        if (!(name in lookup)) {
+                            lookup[name] = 1;
+                            result.sort();
+                            result.push(name);
+                        }
                     }
+                    for (var k = 0; k < result.length; k++){
+                        filters_str += "<option>" + result[k]+ "</option>";
+                    }
+                    filters_str += "</select>";
                 }
-                result.sort();
-                dist_options.push(result);
+                filters = sort_opt;
+                $("#sort-form").empty().append(filters_str);
             }
-            //dist_options includes distinct values of sort options as seperate arrays of strings
-
-            $("#filter-type").empty().append('<option disabled selected value> -Filter- </option>');
-
-
-            //so far only works for 3 sort options, update below to make it work for more
-            var filter_str;
-            if (x_axis.val() === sort_options[0]) {
-                if (y_axis.val() === sort_options[1]) {
-                    filter_str = ("<option disabled selection value> - " + sort_options[2] + "</option>");
-                    for (var b = 0; b < dist_options[2].length; b++){
-                        filter_str += ("<option>" + dist_options[2][b] + "</option>");
-                    }
-                }
-                if (y_axis.val() === sort_options[2]) {
-                    filter_str = ("<option disabled selection value> - " + sort_options[1] + "</option>");
-                    for (var b = 0; b < dist_options[1].length; b++){
-                        filter_str += ("<option>" + dist_options[1][b] + "</option>");
-                    }
-                }
-            }
-            else if (x_axis.val() === sort_options[1]) {
-                if (y_axis.val() === sort_options[0]) {
-                    filter_str = ("<option disabled selection value> - " + sort_options[2] + "</option>");
-                    for (var b = 0; b < dist_options[2].length; b++){
-                        filter_str += ("<option>" + dist_options[2][b] + "</option>");
-                    }
-                }
-                if (y_axis.val() === sort_options[2]) {
-                    filter_str = ("<option disabled selection value> - " + sort_options[0] + "</option>");
-                    for (var b = 0; b < dist_options[0].length; b++){
-                        filter_str += ("<option>" + dist_options[0][b] + "</option>");
-                    }
-                }
-            }
-            else if (x_axis.val() === sort_options[2]) {
-                if (y_axis.val() === sort_options[1]) {
-                    filter_str = ("<option disabled selection value> - " + sort_options[0] + "</option>");
-                    for (var b = 0; b < dist_options[0].length; b++){
-                        filter_str += ("<option>" + dist_options[0][b] + "</option>");
-                    }
-                }
-                if (y_axis.val() === sort_options[0]) {
-                    filter_str = ("<option disabled selection value> - " + sort_options[1] + "</option>");
-                    for (var b = 0; b < dist_options[1].length; b++){
-                        filter_str += ("<option>" + dist_options[1][b] + "</option>");
-                    }
-                }
-            }
-            $("#filter-type").empty().append(filter_str);
         });
     });
 });

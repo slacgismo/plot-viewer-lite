@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -17,8 +18,7 @@
     </div>
   </nav>
 
-  <form>
-    <div id = "sort-form">
+  <form id="sort-selector" >
       <label>X-Axis</label>
         <select name="x-axis-search" id="x-axis-search">
           <option disabled selected value> - select x-axis - </option>
@@ -28,11 +28,7 @@
         <select name="y-axis-search" id="y-axis-search">
           <option disabled selected value> - select y-axis - </option>
         </select>
-
-      <label>Filter</label>
-        <select name="filter-type" id="filter-type">
-          <option disabled selected value> -Filter- </option>
-        </select>
+      <div id="sort-form">
       </div>
     <button type="button" onclick="sortPlots()">submit</button>
     </form>
