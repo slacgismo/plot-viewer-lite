@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+#rows {
+    overflow: visible;
+    white-space: nowrap;
+    height: auto;
+}
+
+.plots {
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
