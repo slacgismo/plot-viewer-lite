@@ -1,35 +1,34 @@
-//used for the filter type to be determined once x_axis and y_axis are selected
+//used for the filter type to be determined once xAxis and yAxis are selected
 
 var filters;
 $(document).ready(function() {
-    var plots = [];
 
     $("#y-axis-search, #x-axis-search").change(function() {
         $("#filter-type").empty().append('<option disabled selected value> -Filter- </option>');
-        $.getJSON(json_url, function(plots) {
+        $.getJSON(jsonUrl, function(plots) {
 
-            var y_axis = $("#y-axis-search").val();
-            var x_axis = $("#x-axis-search").val();
+            var yAxis = $("#y-axis-search").val();
+            var xAxis = $("#x-axis-search").val();
 
-            var sort_opt = [];
-            sort_opt = sort_opt.concat(sort_options);
+            var sortOpt = [];
+            sortOpt = sortOpt.concat(sortOptions);
             var dist_options = [];
 
-            if (sort_options.includes(x_axis) && sort_options.includes(y_axis) && (x_axis != y_axis)){
-                sort_opt.splice(sort_opt.indexOf(x_axis), 1);
-                sort_opt.splice(sort_opt.indexOf(y_axis), 1);
-                var filters_str = "";
+            if (sortOptions.includes(xAxis) && sortOptions.includes(yAxis) && (xAxis !== yAxis)){
+                sortOpt.splice(sortOpt.indexOf(xAxis), 1);
+                sortOpt.splice(sortOpt.indexOf(yAxis), 1);
+                var filtersStr = "";
                 var lookup = {};
                 var result = [];
 
-                for (var l = 0; l < sort_opt.length; l++){
-                    filters_str += "<label>Filter" + (l+1) + "</label>";
-                    filters_str += "<select id='filter" + (l+1) + "'>";
-                    filters_str += "<option disabled selected value> - " + sort_opt[l] + " - </option>";
+                for (var l = 0; l < sortOpt.length; l++){
+                    filtersStr += "<label>Filter" + (l + 1) + "</label>";
+                    filtersStr += "<select id='filter" + (l + 1) + "'>";
+                    filtersStr += "<option disabled selected value> - " + sortOpt[l] + " - </option>";
                     lookup = {};
                     result = [];
                     for (var item, i = 0; item = plots[i++];) {
-                        var name = item[sort_opt[l]];
+                        var name = item[sortOpt[l]];
                         if (!(name in lookup)) {
                             lookup[name] = 1;
                             result.sort();
@@ -37,12 +36,12 @@ $(document).ready(function() {
                         }
                     }
                     for (var k = 0; k < result.length; k++){
-                        filters_str += "<option>" + result[k]+ "</option>";
+                        filtersStr += "<option>" + result[k]+ "</option>";
                     }
-                    filters_str += "</select>";
+                    filtersStr += "</select>";
                 }
-                filters = sort_opt;
-                $("#sort-form").empty().append(filters_str);
+                filters = sortOpt;
+                $("#sort-form").empty().append(filtersStr);
             }
         });
     });
