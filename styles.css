@@ -1,13 +1,14 @@
 * {
   box-sizing: border-box;
 }
-
 #rows {
     overflow: visible;
     white-space: nowrap;
     height: auto;
 }
-
+.nav-form {
+    padding: 10px;
+}
 .plots {
     width: auto;
     height: auto;
