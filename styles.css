@@ -1,16 +1,33 @@
 * {
   box-sizing: border-box;
 }
-#rows {
-    overflow: visible;
-    white-space: nowrap;
-    height: auto;
-}
 .nav-form {
     padding: 10px;
+}
+.navbar {
+    background-color: #333333;
+    overflow: hidden;
+    min-width: 100%;
+    position: fixed;
+    z-index: 1;
+}
+.navbar-logo {
+    height: 50px;
+    padding: 0 0 0 0;
 }
 .plots {
     width: auto;
     height: auto;
     display: inline-block;
+}
+.toast{
+    display: none;
+}
+#json-url-form {
+    padding-top: 70px;
+}
+#rows {
+    overflow: visible;
+    white-space: nowrap;
+    height: auto;
 }

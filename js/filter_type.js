@@ -25,7 +25,7 @@ $(document).ready(function(){
                     var result = [];
 
                     for (var l = 0; l < sortOpt.length; l++){
-                        filtersStr += "<label>Filter" + (l + 1) + "</label>";
+                        filtersStr += "<label>Filter" + (l + 1) + "&nbsp;</label>";
                         filtersStr += "<select id='filter" + (l + 1) + "'>";
                         filtersStr += "<option disabled selected value> - " + sortOpt[l] + " - </option>";
                         lookup = {};
@@ -41,7 +41,7 @@ $(document).ready(function(){
                         for (var k = 0; k < result.length; k++){
                             filtersStr += "<option>" + result[k]+ "</option>";
                         }
-                        filtersStr += "</select>";
+                        filtersStr += "</select><br>";
                     }
                     filters = sortOpt;
                     $("#sort-form").html(filtersStr);
