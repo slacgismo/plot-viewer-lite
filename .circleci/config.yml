@@ -1,0 +1,40 @@
+version: 2
+
+368_config: &368_config
+  docker:
+    - image: circleci/python:3.6.8
+
+jobs:
+  build:
+    <<: *368_config
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: Run Unit Tests
+          command: echo "I should really run unit tests. But they seem to always be an after thought....I'll add 'em in one day.'"
+
+  deploy:
+    <<: *368_config
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: sudo pip install awscli
+      - run:
+          name: Deploy to S3
+          command: aws s3 sync src/ s3://plot-viewer
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
