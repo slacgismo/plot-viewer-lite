@@ -23,11 +23,25 @@
 .toast{
     display: none;
 }
+.btn {
+    border-color: #d1d1d1;
+}
+.container {
+    text-align: center;
+}
+#checkboxes {
+    padding-left: 40%;
+    text-align: left;
+}
 #json-url-form {
-    padding-top: 70px;
+    padding: 60px;
+    padding-top: 100px;
 }
 #rows {
     overflow: visible;
     white-space: nowrap;
     height: auto;
+}
+#plots-content {
+    height: 100vh;
 }
