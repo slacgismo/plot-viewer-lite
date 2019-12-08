@@ -57,7 +57,7 @@ function runJsonParse(event) {
                     for (var i = 0; i < Object.keys(sortOpt).length; i++){
                         allKeys += "<option value='" + Object.keys(sortOpt)[i] + "'>" + Object.keys(sortOpt)[i] + "</option>";
                     }
-                    allKeys += "</select></div></div></div><br><button type='button' id='get-values' class='btn'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspGet Values &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>";
+                    allKeys += "</select></div></div></div><br><button type='button' id='get-values' class='btn'>Get Values</button>";
                     $("#sort-options").append(allKeys);
                     $("#get-values").click(function(){
                         sortOptions = [];
@@ -129,10 +129,9 @@ function sortPlots() {
     var selectedOptions = "<h3> x-axis: " + xAxis + "</h3>";
     selectedOptions += "<h3> y-axis: " + yAxis + "</h3>";
     for (var v = 0; v < filtersArr.length; v++){
-        if(filtersArr[v] == "justNull"){
-            continue;
+        if(filtersArr[v] !== "null"){
+            selectedOptions += "<h3> " + filters[v] + ": " + filtersArr[v] + "</h3>";
         }
-        selectedOptions += "<h3> " + filters[v] + ": " + filtersArr[v] + "</h3>";
     }
     $(".selected-options").html(selectedOptions);
     // filter type being determined
@@ -140,13 +139,12 @@ function sortPlots() {
     if (xAxis !== yAxis) {
       // collects all the objects with the corresponding filter type in array - filtered
         for (var v = 0; v < filtersArr.length; v++) {
-            if(filtersArr[v] == "justNull"){
-                continue;
-            }
-            for (var pl = 0; pl < filtered.length; pl++) {
-                if (filtered[pl][filters[v]] !== filtersArr[v]) {
-                    filtered.splice(pl,1);
-                    pl = pl - 1;
+            if(filtersArr[v] !== "null"){
+                for (var pl = 0; pl < filtered.length; pl++) {
+                    if (filtered[pl][filters[v]] !== filtersArr[v]) {
+                        filtered.splice(pl,1);
+                        pl = pl - 1;
+                    }
                 }
             }
         }

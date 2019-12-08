@@ -22,7 +22,7 @@ $(document).ready(function(){
 
                 if (sortOptions.includes(xAxis) && sortOptions.includes(yAxis) && (xAxis !== yAxis)){
                     var submitButtonTxt = "<div id='sort-form'></div></br><button type='button' id='submit-scroll' class='btn' onclick='sortPlots()'>";
-                    submitButtonTxt += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>";
+                    submitButtonTxt += "SUBMIT</button>";
                     $("#submit-button").html(submitButtonTxt);
                     sortOpt.splice(sortOpt.indexOf(xAxis), 1);
                     sortOpt.splice(sortOpt.indexOf(yAxis), 1);
@@ -31,9 +31,9 @@ $(document).ready(function(){
                     var result = [];
 
                     for (var l = 0; l < sortOpt.length; l++){
-                        filtersStr += "<label class='col-md-4 control-label'>Filter" + (l + 1) + "&nbsp;</label>";
+                        filtersStr += "<label class='col-md-4 control-label'>Filter " + (l + 1) + "&nbsp;</label>";
                         filtersStr += "<select id='filter" + (l + 1) + "' class='form-control selectpicker'>";
-                        filtersStr += "<option selected value='justNull'> - " + sortOpt[l] + " - </option>";
+                        filtersStr += "<option selected value='null'> - " + sortOpt[l] + " - </option>";
                         lookup = {};
                         result = [];
                         for (var item, i = 0; item = plots[i++];) {
