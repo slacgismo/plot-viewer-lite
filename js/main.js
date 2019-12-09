@@ -129,8 +129,9 @@ function sortPlots() {
     var selectedOptions = "<h3> x-axis: " + xAxis + "</h3>";
     selectedOptions += "<h3> y-axis: " + yAxis + "</h3>";
     for (var v = 0; v < filtersArr.length; v++){
-        if(filtersArr[v] !== "null"){
+        if(filtersArr[v]){
             selectedOptions += "<h3> " + filters[v] + ": " + filtersArr[v] + "</h3>";
+            console.log(filtersArr)
         }
     }
     $(".selected-options").html(selectedOptions);
@@ -139,7 +140,7 @@ function sortPlots() {
     if (xAxis !== yAxis) {
       // collects all the objects with the corresponding filter type in array - filtered
         for (var v = 0; v < filtersArr.length; v++) {
-            if(filtersArr[v] !== "null"){
+            if(filtersArr[v]){
                 for (var pl = 0; pl < filtered.length; pl++) {
                     if (filtered[pl][filters[v]] !== filtersArr[v]) {
                         filtered.splice(pl,1);
