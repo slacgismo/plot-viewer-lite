@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>SLAC GISMo Plot Viewer</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="https://gismo.slac.stanford.edu/" target="_blank">
+                        <image class="navbar-logo" src="./images/gismo-logo.png">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <br>
+        <form class="nav-form" id="json-url-form" onSubmit="return false;">
+            <label>JSON-URL</label>
+            <input class="form-control" id="json-url" type="url" onkeypress='return runJsonParse(event)' autofocus>
+            <small class="form-text text-muted">
+                Please enter the URL to a JSON file and hit enter.
+            </small>
+            <div class="toast" id="toast0" data-delay="2000">
+                <div class="toast-header">
+                  404 Error
+                </div>
+                <div class="toast-body">
+                  Requested doc could not be found. Please validate the input(s).
+                </div>
+            </div>
+        </form>
+        <div class="container">
+            <form class="nav-form card bg-light form-horizontal" id="first-form" style="display:none">
+                <fieldset>
+                    <div class="form-group">
+                        <div id="sort-options">
+                            <div id="checkboxes">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            </br>
+            </br>
+            <form class="nav-form card bg-light form-horizontal" id="sort-selector" style="display:none">
+                <fieldset>
+                    <div class="form-group" id="axis-options" style="display:none">
+                        <label class="col-md-4 control-label">X-Axis</label>
+                            <span class="input-group-addon"></span>
+                            <select name="x-axis-search" id="x-axis-search" class="form-control selectpicker">
+                                <option disabled selected value> - select x-axis - </option>
+                            </select><br>
+                        <label class="col-md-4 control-label">Y-Axis</label>
+                            <span class="input-group-addon"></span>
+                            <select name="y-axis-search" id="y-axis-search" class="form-control selectpicker">
+                                <option disabled selected value> - select y-axis - </option>
+                            </select>
+                        <div class="toast" id="toast1" data-delay="2000">
+                            <div class="toast-body">
+                              Please make sure the x-axis selection is different from the y-axis selection.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="submit-button">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        </br>
+        </br>
+        <div id='plots-content' class='col-md-9'>
+            <div class="selected-options" id="selected-options">
+            </div>
+            <div id="content">
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./js/filter_type.js"></script>
+        <script type="text/javascript" src="./js/main.js"></script>
+    </body>
+</html>

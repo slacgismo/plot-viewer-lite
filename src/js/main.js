@@ -11,13 +11,7 @@ function runJsonParse(event) {
         imageUrl = "";
         imageCsv = "";
         //clears all the divs within the form when the url input changes
-        $("#submit-button").html("<div id='sort-form'></div><button type='button' onclick='sortPlots()'>submit</button>");
-        $("#x-axis-search").empty();
-        $("#y-axis-search").empty();
-        $("#selected-options").empty();
-        $("#content").empty();
-        $("#axis-options").attr("style", "display:none");
-
+        resetForms();
         jsonUrl = document.getElementById('json-url').value;
         jsonUrl = jsonUrl.trim();
         $.ajax({
@@ -28,17 +22,17 @@ function runJsonParse(event) {
                 var sortOpt = plots[0];
                 //checks for the json file structure
                 if (Object.values(sortOpt).includes("option", "display")){
-                    $("#sort-options").empty();
+                    $('#sort-selector').attr("style", "");
                     //creates sort options list based of tags given in the first object of json
                     for (var i = 0; i < Object.values(sortOpt).length ; i++){
                         if (Object.values(sortOpt)[i] === "option"){
                             sortOptions.push(Object.keys(sortOpt)[i]);
                         }
                         else if (Object.values(sortOpt)[i] === "display"){
-                            imageUrl += Object.keys(sortOpt)[i];
+                            imageUrl = Object.keys(sortOpt)[i];
                         }
                         else if (Object.values(sortOpt)[i] === "download"){
-                            imageCsv += Object.keys(sortOpt)[i];
+                            imageCsv = Object.keys(sortOpt)[i];
                         }
                     }
                     plots.splice(0,1);
@@ -46,35 +40,44 @@ function runJsonParse(event) {
                 }
                 else {
                     //creates a form to collect required information such as the key name for imageUrl
-                    var allKeys = "<label>Select the desired sort options</label>";
+                    $('#first-form').attr("style", "");
+                    var allCheckBoxes = "";
                     for (var i = 0; i < Object.keys(sortOpt).length; i++){
-                        allKeys += "<div class='checkbox'><label><input type='checkbox' name='sort-options' value='" + Object.keys(sortOpt)[i] + "'>" + Object.keys(sortOpt)[i] + "</label></div>";
+                        allCheckBoxes += "<div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' name='sort-options' value='" + Object.keys(sortOpt)[i] ;
+                        allCheckBoxes += "' id='" + Object.keys(sortOpt)[i] + "' ><label class='custom-control-label' for='" + Object.keys(sortOpt)[i] + "'>" + Object.keys(sortOpt)[i] + "</label></div>";
                     }
-                    allKeys += "<div id='image-url'><label>Select the desired display field</label><select>";
+                    $("#checkboxes").html(allCheckBoxes);
+                    var allKeys = "</br><div id='image-url'><label class='col-md-4 control-label'>Display Field</label>";
+                    allKeys += "<select id='image-url-field' class='form-control selectpicker'>";
                     for (var i = 0; i < Object.keys(sortOpt).length; i++){
                         allKeys += "<option value='" + Object.keys(sortOpt)[i] + "'>" + Object.keys(sortOpt)[i] + "</option>";
                     }
-                    allKeys += "</select></div><div id='image-csv'><label>Select the desired download field</label><select>";
+                    allKeys += "</select></div><div id='image-csv'><label class='col-md-4 control-label'>Download Field</label>";
+                    allKeys += "<select id='image-csv-field' class='form-control selectpicker'>";
                     for (var i = 0; i < Object.keys(sortOpt).length; i++){
                         allKeys += "<option value='" + Object.keys(sortOpt)[i] + "'>" + Object.keys(sortOpt)[i] + "</option>";
                     }
-                    allKeys += "</select></div><br><button type='button'>Get Values</button>";
-                    $("#sort-options").html(allKeys);
-                    $("button").click(function(){
+                    allKeys += "</select></div></div></div><br><button type='button' id='get-values' class='btn'>Get Values</button>";
+                    $("#sort-options").append(allKeys);
+                    $("#get-values").click(function(){
                         sortOptions = [];
                         $.each($("input[name='sort-options']:checked"), function(){
                             sortOptions.push($(this).val());
                         });
-                        imageUrl += $('#image-url :selected').text();
-                        imageCsv += $('#image-csv :selected').text();
+                        imageUrl = $('#image-url :selected').text();
+                        imageCsv = $('#image-csv :selected').text();
                         modifySortOpt(sortOptions);
+                        $('#sort-selector').attr("style", "");
+                        $('html,body').animate({scrollTop: $("#sort-selector").offset().top-80},'slow');
                     });
                 }
             },
             error:function(error){
+                resetForms();
                 console.log('Error ${error}');
-                $('#axis-options').attr("style", "display:none");
-                            }
+                $('#toast0').attr('style','');
+                $('#toast0').toast('show');
+            }
         });
     }
 }
@@ -94,6 +97,19 @@ function modifySortOpt(sortOptions) {
     $('#axis-options').attr("style", "");
 }
 
+// resets all the forms when a different input is entered in to the jsonUrl field
+function resetForms() {
+    $("#submit-button").empty();
+    $("#x-axis-search").empty();
+    $("#y-axis-search").empty();
+    $("#selected-options").empty();
+    $("#content").empty();
+    $("#axis-options").attr("style", "display:none");
+    $("#sort-options").html("<label>Select the desired sort options</label><div id='checkboxes'></div>");
+    $('#sort-selector').attr("style", "display:none");
+    $('#first-form').attr("style", "display:none");
+}
+
 function sortPlots() {
     var xAxis = $('#x-axis-search').find(":selected").text();
     var yAxis = $('#y-axis-search').find(":selected").text();
@@ -101,10 +117,9 @@ function sortPlots() {
     //for when there are more filters than normalization
     for (var l = 0; l < filters.length; l++){
         if ($('#filter' + (l + 1) + " option:selected").prop('disabled') !== true){
-            filtersArr.push($('#filter' + (l + 1)).find(":selected").text());
+            filtersArr.push($('#filter' + (l + 1)).find(":selected").val());
         }
     }
-    console.log(filtersArr);
     var rows = [];
     var columns = [];
     var filtered = [];
@@ -114,18 +129,23 @@ function sortPlots() {
     var selectedOptions = "<h3> x-axis: " + xAxis + "</h3>";
     selectedOptions += "<h3> y-axis: " + yAxis + "</h3>";
     for (var v = 0; v < filtersArr.length; v++){
-        selectedOptions += "<h3> " + filters[v] + ": " + filtersArr[v] + "</h3>";
+        if(filtersArr[v]){
+            selectedOptions += "<h3> " + filters[v] + ": " + filtersArr[v] + "</h3>";
+            console.log(filtersArr)
+        }
     }
     $(".selected-options").html(selectedOptions);
     // filter type being determined
     // filter options are displayed through filter_type.js
     if (xAxis !== yAxis) {
       // collects all the objects with the corresponding filter type in array - filtered
-        for (var filt = 0; filt < filtersArr.length; filt++) {
-            for (var pl = 0; pl < filtered.length; pl++) {
-                if (filtered[pl][filters[filt]] !== filtersArr[filt]) {
-                    filtered.splice(pl,1);
-                    pl = pl - 1;
+        for (var v = 0; v < filtersArr.length; v++) {
+            if(filtersArr[v]){
+                for (var pl = 0; pl < filtered.length; pl++) {
+                    if (filtered[pl][filters[v]] !== filtersArr[v]) {
+                        filtered.splice(pl,1);
+                        pl = pl - 1;
+                    }
                 }
             }
         }
@@ -160,7 +180,11 @@ function sortPlots() {
             }
             $("#content").append("</div>");
         }
+    $('html,body').animate({scrollTop: $("#plots-content").offset().top-80},'slow');
     } else {
-        $("#content").html("<h2>please select a different value for each dropdown and make sure each drop down has a selected value</h2>");
+        $('#toast1').attr('style','');
+        $('#toast1').toast('show');
+        $("#content").empty();
+        $("#selected-options").empty();
     }
 }

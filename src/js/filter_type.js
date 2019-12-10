@@ -2,6 +2,9 @@
 
 var filters;
 $(document).ready(function(){
+    $("#image-url-field, #image-csv-field").change(function(){
+        console.log("hey");
+    });
 
     $("#y-axis-search, #x-axis-search").change(function(){
         $("#filter-type").html('<option disabled selected value> -Filter- </option>');
@@ -18,6 +21,9 @@ $(document).ready(function(){
                 var dist_options = [];
 
                 if (sortOptions.includes(xAxis) && sortOptions.includes(yAxis) && (xAxis !== yAxis)){
+                    var submitButtonTxt = "<div id='sort-form'></div></br><button type='button' id='submit-scroll' class='btn' onclick='sortPlots()'>";
+                    submitButtonTxt += "SUBMIT</button>";
+                    $("#submit-button").html(submitButtonTxt);
                     sortOpt.splice(sortOpt.indexOf(xAxis), 1);
                     sortOpt.splice(sortOpt.indexOf(yAxis), 1);
                     var filtersStr = "";
@@ -25,9 +31,9 @@ $(document).ready(function(){
                     var result = [];
 
                     for (var l = 0; l < sortOpt.length; l++){
-                        filtersStr += "<label>Filter" + (l + 1) + "&nbsp;</label>";
-                        filtersStr += "<select id='filter" + (l + 1) + "'>";
-                        filtersStr += "<option disabled selected value> - " + sortOpt[l] + " - </option>";
+                        filtersStr += "<label class='col-md-4 control-label'>Filter " + (l + 1) + "&nbsp;</label>";
+                        filtersStr += "<select id='filter" + (l + 1) + "' class='form-control selectpicker'>";
+                        filtersStr += "<option selected value=''> - " + sortOpt[l] + " - </option>";
                         lookup = {};
                         result = [];
                         for (var item, i = 0; item = plots[i++];) {
@@ -39,9 +45,10 @@ $(document).ready(function(){
                             }
                         }
                         for (var k = 0; k < result.length; k++){
-                            filtersStr += "<option>" + result[k]+ "</option>";
+                            filtersStr += "<option value='" + result[k] + "'>" + result[k]+ "</option>";
                         }
                         filtersStr += "</select><br>";
+                        filtersStr += "</div>";
                     }
                     filters = sortOpt;
                     $("#sort-form").html(filtersStr);

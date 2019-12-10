@@ -12,7 +12,7 @@
     z-index: 1;
 }
 .navbar-logo {
-    height: 50px;
+    height: 30px;
     padding: 0 0 0 0;
 }
 .plots {
@@ -23,11 +23,33 @@
 .toast{
     display: none;
 }
+.btn {
+    border-color: #d1d1d1;
+}
+.container {
+    text-align: center;
+}
+#get-values {
+    text-align: center;
+    padding: 10px 40px;
+}
+#submit-scroll{
+    text-align: center;
+    padding: 10px 40px;
+}
+#checkboxes {
+    padding-left: 40%;
+    text-align: left;
+}
 #json-url-form {
-    padding-top: 70px;
+    padding: 60px;
+    padding-top: 100px;
 }
 #rows {
     overflow: visible;
     white-space: nowrap;
     height: auto;
+}
+#plots-content {
+    height: 100vh;
 }
