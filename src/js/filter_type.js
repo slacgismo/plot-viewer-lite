@@ -2,9 +2,6 @@
 
 var filters;
 $(document).ready(function(){
-    $("#image-url-field, #image-csv-field").change(function(){
-        console.log("hey");
-    });
 
     $("#y-axis-search, #x-axis-search").change(function(){
         $("#filter-type").html('<option disabled selected value> -Filter- </option>');
@@ -12,7 +9,7 @@ $(document).ready(function(){
             url: jsonUrl,
             type: "GET",
             success: function(plot){
-                plots.splice(0,1);
+                plot.splice(0,1);
                 var yAxis = $("#y-axis-search").val();
                 var xAxis = $("#x-axis-search").val();
 
