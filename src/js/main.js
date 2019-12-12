@@ -121,7 +121,6 @@ function sortPlots() {
         }
     }
     var rows = [];
-    var columns = [];
     var filtered = [];
     filtered = filtered.concat(plots);
     var xySort = [];
@@ -131,7 +130,6 @@ function sortPlots() {
     for (var v = 0; v < filtersArr.length; v++){
         if(filtersArr[v]){
             selectedOptions += "<h3> " + filters[v] + ": " + filtersArr[v] + "</h3>";
-            console.log(filtersArr)
         }
     }
     $(".selected-options").html(selectedOptions);
